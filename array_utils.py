@@ -10,3 +10,11 @@ def find_index(array, value):
         if val >= value:
             return i
     return None
+
+
+def get_real_from_tuple_array(array):
+    return [x[0] for x in array]
+
+
+def get_imaginary_from_tuple_array(array):
+    return [[x[1] for x in array]]

@@ -1,12 +1,12 @@
 import numpy as np
 
-from signal_utils import get_sample_interval, get_samples, get_time_array
+from signal_utils import get_sampling_interval, get_samples, get_time_array
 from array_utils import create_empty_array
 from numpy import pi, absolute
 
 
 def gen_sine(A, f, phi, fs, T):
-    sampling_interval = get_sample_interval(fs)
+    sampling_interval = get_sampling_interval(fs)
     samples_signal = get_samples(T, fs)
     time_array = get_time_array(samples_signal, sampling_interval)
 
@@ -17,7 +17,7 @@ def gen_sine(A, f, phi, fs, T):
 
 
 def gen_complex_sine(f, N, A=1., phi=0., fs=1.):
-    sampling_interval = get_sample_interval(fs)
+    sampling_interval = get_sampling_interval(fs)
 
     complex_sine = create_empty_array(N, array_type='complex')
     for n, _ in enumerate(complex_sine):

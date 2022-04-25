@@ -1,15 +1,45 @@
-from audio_reader import *
-from dft import IDFT, DFT, gen_complex_sine, gen_mag_spec
-from plot import show_plot
 import numpy as np
 
+
+from audio_reader import *
+from dft import IDFT, DFT, gen_complex_sine, gen_mag_spec
+from array_utils import get_imaginary_from_tuple_array, get_real_from_tuple_array
+from plot import show_plot
+from lfm import *
+
+
 if __name__ == '__main__':
+    # ЛЧМ сигнал во временной области (действительная составляющая)
+    Fs = 1e6
+    T = 2e-3
+    dF = 1e5
+    time_array, pulse = lfm_pulse(Fs, T, dF)
+    # show_plot(time_array, [get_real_from_tuple_array(pulse)])
+
+    # Амплитудный спектр ЛЧМ сигнала
+    # mag_pulse, f_array = gen_mag_spec(pulse, Fs)
+    # temp_array = 20 * np.log10(mag_pulse / max(mag_pulse))
+    # show_plot(f_array, [mag_pulse])
+
+    # Окно Хэмминга во временной области
+    window_hamming = hamming_window(pulse)
+    # show_plot(np.arange(len(window_hamming)), [window_hamming])
+
+    # ЛЧМ сигнал с весовой обработкой (действительная составляющая)
+    weight_lfm = weight_lfm_signal(pulse, window_hamming)
+    # show_plot(time_array, [get_real_from_tuple_array(weight_lfm)])
+
+    # Амплитудный спектр ЛЧМ с весовой обработкой
+    mag_weight_pulse, f_array = gen_mag_spec(get_real_from_tuple_array(weight_lfm), Fs)
+    temp_array = 20 * np.log10(mag_weight_pulse / max(mag_weight_pulse))
+    show_plot(np.arange(len(f_array)), [temp_array.real])
+
     # # samplerate = get_samplerate('resources/kdt_437.wav')
     # show_wave('resources/kdt_437.wav')
     # # data = get_data('resources/kdt_437.wav')
     # show_amplitude_spec_wave('resources/kdt_437.wav')
     # show_log_amplitude_spec_wave('resources/kdt_437.wav')
-    show_fragment_wave('resources/kdt_437.wav', 1.25, 1.37)
+    # show_fragment_wave('resources/kdt_437.wav', 1.25, 1.37)
 
     # complex_sine = gen_complex_sine(2000.0, 500, fs=8000)
     # test_gen_mag_spec, f_array = gen_mag_spec(complex_sine, 8000)

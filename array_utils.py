@@ -18,3 +18,7 @@ def get_real_from_tuple_array(array):
 
 def get_imaginary_from_tuple_array(array):
     return [[x[1] for x in array]]
+
+
+def generate_noise_array(samples):
+    return np.random.randn(samples) * 0.5

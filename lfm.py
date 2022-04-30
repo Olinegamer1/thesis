@@ -1,8 +1,4 @@
-from functools import reduce
-
-import numpy as np
 from numpy import cos, sin
-from array_utils import create_empty_array
 from signal_utils import *
 
 
@@ -51,21 +47,3 @@ def lfm_pulse(sampling_frequency, pulse_duration, pulse_bandwidth):
         output[k] = (cos(temp_result), sin(temp_result))
     return time_array, output
 
-
-def hamming_window(lfm_signal):
-    size = len(lfm_signal)
-    output = create_empty_array(size)
-
-    for k, _ in enumerate(lfm_signal):
-        if k < size / 2:
-            output[k] = 0.54 - 0.46 * cos(2 * pi * (size - k - 1) / (size - 1))
-        output[k] = 0.54 - 0.46 * cos(2 * pi * k / (size - 1))
-
-    return output
-
-
-def weight_lfm_signal(lfm_signal, hamming_win):
-    output = []
-    for index, _ in enumerate(lfm_signal):
-        output.append(reduce(lambda x, y: (x * hamming_win[index], y * hamming_win[index]), lfm_signal[index]))
-    return output

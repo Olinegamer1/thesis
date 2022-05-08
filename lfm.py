@@ -1,4 +1,5 @@
-from numpy import cos, sin
+from numpy import sin
+
 from signal_utils import *
 
 
@@ -39,11 +40,10 @@ def lfm_pulse(sampling_frequency, pulse_duration, pulse_bandwidth):
     samples_signal = get_samples(pulse_duration, sampling_frequency)
     time_array = get_time_array(samples_signal, sampling_interval)
 
-    output = create_empty_array(samples_signal, array_type='object')
+    output = create_empty_array(samples_signal, array_type='complex_')
     for k, _ in enumerate(time_array):
         alpha = slew_rate(pulse_bandwidth, pulse_duration)
         k_dt = get_kdt(k, sampling_interval)
         temp_result = alpha * k_dt * (pulse_duration - k_dt)
-        output[k] = (cos(temp_result), sin(temp_result))
+        output[k] = complex(cos(temp_result), sin(temp_result))
     return time_array, output
-

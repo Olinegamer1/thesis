@@ -12,13 +12,18 @@ def find_index(array, value):
     return None
 
 
-def get_real_from_tuple_array(array):
-    return [x[0] for x in array]
-
-
-def get_imaginary_from_tuple_array(array):
-    return [[x[1] for x in array]]
-
-
 def generate_noise_array(samples):
-    return np.random.randn(samples) * 0.5
+    return np.random.randn(samples)
+
+
+def add_zeroes(array, behind, front):
+    return np.hstack([np.zeros(behind), array, np.zeros(front)])
+
+
+def convert_to_complex(mas):
+    output = create_empty_array(len(mas), array_type='complex')
+
+    for k, number in enumerate(mas):
+        output[k] = complex(number[0], number[1])
+
+    return output

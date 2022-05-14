@@ -2,7 +2,7 @@ import numpy as np
 
 from signal_utils import get_sampling_interval, get_samples, get_time_array
 from array_utils import create_empty_array
-from numpy import pi, absolute
+from numpy import pi, abs, max, log10
 
 
 def gen_sine(A, f, phi, fs, T):
@@ -45,6 +45,7 @@ def IDFT(X):
     return output
 
 
-def gen_mag_spec(x, fs):
-    f_array = np.arange(len(x)) * fs / len(x)
-    return absolute(np.fft.fft(x)), f_array
+def gen_mag_spec(signal):
+    idft_signal = abs(np.fft.fft(signal))
+    idft_signal /= max(idft_signal)
+    return 20 * log10(idft_signal)

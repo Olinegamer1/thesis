@@ -1,7 +1,7 @@
 from scipy.io import wavfile
 from dft import gen_mag_spec
 from plot import show_plot
-from array_utils import find_index
+from array_utils import find_close_index
 
 import numpy as np
 
@@ -31,8 +31,8 @@ def show_fragment_wave(filename, start_time, end_time):
     data = get_data(filename)
     length = data.shape[0] / samplerate
     time = np.linspace(0., length, data.shape[0])
-    start_index = find_index(time, start_time)
-    end_index = find_index(time, end_time)
+    start_index = find_close_index(time, start_time)
+    end_index = find_close_index(time, end_time)
     print(start_index, end_index)
     show_plot(time[start_index:end_index], [data[start_index:end_index]])
 
